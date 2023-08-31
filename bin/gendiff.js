@@ -30,10 +30,26 @@ const genDiff = (filepath1, filepath2, type) => {
     } else {
       console.error('Bad files provided')
     }
-    console.log(diff)
+    //console.log(diff)
+    const sortedKeys = _.sortBy(Object.keys(diff))
+    console.log('{') 
+    for (const key of sortedKeys){
+      if (diff[key]['unchanged']){
+        console.log(`  ${key}: ${json_data1[key]}`)
+      } else if (diff[key]['deleted']){
+        console.log(`- ${key}: ${json_data1[key]}`)
+      } else if (diff[key]['added']) {
+        console.log(`+ ${key}: ${json_data2[key]}`)
+      }else if (diff[key]['updated']) {
+        console.log(`- ${key}: ${json_data1[key]}`)
+        console.log(`+ ${key}: ${json_data2[key]}`)
+      }
+    }
+    console.log('}') 
   } else {
     console.error('Bad filenames provided')
   }
+
 };
 
 program
