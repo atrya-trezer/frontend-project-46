@@ -1,9 +1,10 @@
 import { Command } from 'commander';
+import { readFileSync } from 'node:fs';
 const program = new Command();
 
 const genDiff = (filepath1, filepath2, type) => {
-  console.log(filepath1);
-  console.log(filepath2);
+  console.log(readFileSync(filepath1, "utf8"));
+  console.log(readFileSync(filepath2,"utf8"));
   console.log(type);
 };
 
