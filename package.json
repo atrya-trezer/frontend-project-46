@@ -18,6 +18,7 @@
   "homepage": "https://github.com/atrya-trezer/frontend-project-46#readme",
   "type": "module",
   "dependencies": {
-    "commander": "^11.0.0"
+    "commander": "^11.0.0",
+    "lodash": "^4.17.21"
   }
 }
