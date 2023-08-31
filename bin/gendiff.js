@@ -35,14 +35,14 @@ const genDiff = (filepath1, filepath2, type) => {
     console.log('{') 
     for (const key of sortedKeys){
       if (diff[key]['unchanged']){
-        console.log(`  ${key}: ${json_data1[key]}`)
+        console.log(`    ${key}: ${json_data1[key]}`)
       } else if (diff[key]['deleted']){
-        console.log(`- ${key}: ${json_data1[key]}`)
+        console.log(`  - ${key}: ${json_data1[key]}`)
       } else if (diff[key]['added']) {
-        console.log(`+ ${key}: ${json_data2[key]}`)
+        console.log(`  + ${key}: ${json_data2[key]}`)
       }else if (diff[key]['updated']) {
-        console.log(`- ${key}: ${json_data1[key]}`)
-        console.log(`+ ${key}: ${json_data2[key]}`)
+        console.log(`  - ${key}: ${json_data1[key]}`)
+        console.log(`  + ${key}: ${json_data2[key]}`)
       }
     }
     console.log('}') 
