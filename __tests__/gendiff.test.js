@@ -1,5 +1,4 @@
-import test from 'node:test';
-import { expect } from 'expect';
+import { test, expect } from '@jest/globals';
 import genDiff from '../src/diff.js';
 
 const res = `{
