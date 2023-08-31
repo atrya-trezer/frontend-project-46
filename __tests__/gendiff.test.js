@@ -9,7 +9,7 @@ const res = `{
   - timeout: 50
   + timeout: 20
   + verbose: true
-}`
+}`;
 
 test('genDiff', () => {
   expect(genDiff('./data/file1.json', './data/file2.json', {})).toBe(res);
