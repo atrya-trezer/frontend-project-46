@@ -3,7 +3,12 @@ import { readFileSync } from 'node:fs';
 import _ from 'lodash';
 const program = new Command();
 
+const main = (filepath1, filepath2, type) => {
+  console.log(genDiff(filepath1, filepath2, type));
+}
+
 const genDiff = (filepath1, filepath2, type) => {
+  let output = '';
   let data1 = readFileSync(filepath1, "utf8");
   let data2 = readFileSync(filepath2, "utf8");
   if (data1 && data2){
@@ -32,24 +37,24 @@ const genDiff = (filepath1, filepath2, type) => {
     }
     //console.log(diff)
     const sortedKeys = _.sortBy(Object.keys(diff))
-    console.log('{') 
+    output += '{\n';
     for (const key of sortedKeys){
       if (diff[key]['unchanged']){
-        console.log(`    ${key}: ${json_data1[key]}`)
+        output += `    ${key}: ${json_data1[key]}\n`;
       } else if (diff[key]['deleted']){
-        console.log(`  - ${key}: ${json_data1[key]}`)
+        output += `  - ${key}: ${json_data1[key]}\n`;
       } else if (diff[key]['added']) {
-        console.log(`  + ${key}: ${json_data2[key]}`)
+        output += `  + ${key}: ${json_data2[key]}\n`;
       }else if (diff[key]['updated']) {
-        console.log(`  - ${key}: ${json_data1[key]}`)
-        console.log(`  + ${key}: ${json_data2[key]}`)
+        output += `  - ${key}: ${json_data1[key]}\n`;
+        output += `  + ${key}: ${json_data2[key]}\n`;
       }
     }
-    console.log('}') 
+    output += '}'; 
   } else {
     console.error('Bad filenames provided')
   }
-
+  return output;
 };
 
 program
@@ -59,5 +64,5 @@ program
   .option('-f, --format <type>', 'output format')
   .argument('<filepath1>')
   .argument('<filepath2>')
-  .action(genDiff)
+  .action(main)
   .parse(process.argv);
