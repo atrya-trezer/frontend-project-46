@@ -10,10 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/atrya-trezer/frontend-project-46.git"
   },
-  "author": "",
+  "author": "fedya",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/atrya-trezer/frontend-project-46/issues"
   },
-  "homepage": "https://github.com/atrya-trezer/frontend-project-46#readme"
+  "homepage": "https://github.com/atrya-trezer/frontend-project-46#readme",
+  "type": "module",
+  "dependencies": {
+    "commander": "^11.0.0"
+  }
 }
