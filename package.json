@@ -28,7 +28,8 @@
   "dependencies": {
     "commander": "^11.0.0",
     "expect": "^29.6.4",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "simple-git-hooks": "^2.9.0"
   },
   "devDependencies": {
     "eslint": "^8.48.0",
