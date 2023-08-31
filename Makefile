@@ -1,3 +1,9 @@
+install: install-deps
+	npx simple-git-hooks
+
+install-deps:
+	npm ci
+
 test:
 	npm test --test-reporter=spec
 
