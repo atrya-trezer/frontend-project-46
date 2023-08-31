@@ -1,6 +1,12 @@
 import { Command } from 'commander';
 const program = new Command();
 
+const command = (filepath1, filepath2, type) => {
+  console.log(filepath1);
+  console.log(filepath2);
+  console.log(type);
+};
+
 program
   .name('gendiff')
   .description('Compares two configuration files and shows a difference.')
@@ -8,5 +14,5 @@ program
   .option('-f, --format <type>', 'output format')
   .argument('<filepath1>')
   .argument('<filepath2>')
+  .action(command)
   .parse(process.argv);
-program.parse();
