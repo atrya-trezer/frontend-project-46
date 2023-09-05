@@ -6,7 +6,7 @@ import genDiff from '../src/diff.js';
 const program = new Command();
 
 const main = (filepath1, filepath2, type) => {
-  console.log(genDiff(filepath1, filepath2, type));
+  console.log(genDiff(filepath1, filepath2, type.format));
 };
 
 program
