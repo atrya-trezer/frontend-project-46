@@ -28,6 +28,7 @@
   "dependencies": {
     "commander": "^11.0.0",
     "expect": "^29.6.4",
+    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "simple-git-hooks": "^2.9.0"
   },
