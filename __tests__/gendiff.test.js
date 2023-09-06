@@ -11,5 +11,5 @@ const res = `{
 }`;
 
 test('genDiff', () => {
-  expect(genDiff('./data/file1.json', './data/file2.json', {})).toBe(res);
+  expect(genDiff('./data/file1.json', './data/file2.json', undefined)).toBe(res);
 });

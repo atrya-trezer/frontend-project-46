@@ -11,5 +11,5 @@ const res = `{
 }`;
 
 test('genDiff', () => {
-  expect(genDiff('./data/file1.yml', './data/file2.yml', {})).toBe(res);
+  expect(genDiff('./data/file1.yml', './data/file2.yml', undefined)).toBe(res);
 });

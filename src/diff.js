@@ -17,28 +17,108 @@ const readFiles = (filepath1, filepath2) => {
   return [undefined, undefined, undefined, 'could not read files'];
 };
 
-const generateOutput = (diff, parsedData1, parsedData2, outputFormat) => {
+const prettyPrint = (obj, level) => {
+  const ident = '    ';
+  if (obj === null) {
+    return 'null\n';
+  }
+  const sortedKeys = _.sortBy(Object.keys(obj));
+  let result = '{\n';
+  for (let i = 0; i < sortedKeys.length; i += 1) {
+    const key = sortedKeys[i];
+    if (typeof obj[key] === 'object') {
+      result += `${ident.repeat(level)}    ${key}: `;
+      result += prettyPrint(obj[key], level + 1);
+    } else {
+      result += `${ident.repeat(level)}    ${key}: ${obj[key]}\n`;
+    }
+  }
+  result += `${ident.repeat(level)}}\n`;
+  return result;
+};
+
+const serializeObject = (diff, obj1, obj2, level, toplevel) => {
+  const ident = '    ';
   const sortedKeys = _.sortBy(Object.keys(diff));
+
+  let result = `${ident.repeat(level)}${toplevel}{`;
+  for (let i = 0; i < sortedKeys.length; i += 1) {
+    const key = sortedKeys[i];
+
+    if (i === 0) {
+      result += '\n';
+    }
+    if (typeof diff[key] === 'object') {
+      result += serializeObject(diff[key], obj1[key], obj2[key], level + 1, `${key}: `);
+    } else if (diff[key] === 'unchanged') {
+      result += `${ident.repeat(level)}    ${key}: ${obj1[key]}\n`;
+    } else if (diff[key] === 'deleted') {
+      let res = `${obj1[key]}\n`;
+      if (typeof obj1[key] === 'object') {
+        res = prettyPrint(obj1[key], level + 1);
+      }
+      result += `${ident.repeat(level)}  - ${key}: ${res}`;
+    } else if (diff[key] === 'added') {
+      let res = `${obj2[key]}\n`;
+      if (typeof obj2[key] === 'object') {
+        res = prettyPrint(obj2[key], level + 1);
+      }
+      result += `${ident.repeat(level)}  + ${key}: ${res}`;
+    } else if (diff[key] === 'updated') {
+      let res1 = `${obj1[key]}\n`;
+      let res2 = `${obj2[key]}\n`;
+      if (typeof obj1[key] === 'object') {
+        res1 = prettyPrint(obj1[key], level + 1);
+      }
+      if (typeof obj2[key] === 'object') {
+        res2 = prettyPrint(obj2[key], level + 1);
+      }
+      result += `${ident.repeat(level)}  - ${key}: ${res1}`;
+      result += `${ident.repeat(level)}  + ${key}: ${res2}`;
+    }
+  }
+  result += `${ident.repeat(level)}}`;
+  if (level > 0) {
+    result += '\n';
+  }
+  return result;
+};
+
+const generateOutput = (diff, parsedData1, parsedData2, outputFormat) => {
   let result = '';
   if (!outputFormat) {
-    result += '{\n';
-    for (let i = 0; i < sortedKeys.length; i += 1) {
-      const key = sortedKeys[i];
-      if (diff[key].unchanged) {
-        result += `    ${key}: ${parsedData1[key]}\n`;
-      } else if (diff[key].deleted) {
-        result += `  - ${key}: ${parsedData1[key]}\n`;
-      } else if (diff[key].added) {
-        result += `  + ${key}: ${parsedData2[key]}\n`;
-      } else if (diff[key].updated) {
-        result += `  - ${key}: ${parsedData1[key]}\n`;
-        result += `  + ${key}: ${parsedData2[key]}\n`;
-      }
-    }
-    result += '}';
+    result = serializeObject(diff, parsedData1, parsedData2, 0, '');
   }
 
   return result;
+};
+
+const compareObjects = (obj1, obj2) => {
+  const diff = {};
+  if (obj1 && obj2) {
+    const data1Keys = Object.keys(obj1);
+    for (let i = 0; i < data1Keys.length; i += 1) {
+      const key = data1Keys[i];
+
+      if (!_.has(obj2, key)) {
+        diff[key] = 'deleted';
+      } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+        diff[key] = compareObjects(obj1[key], obj2[key]);
+      } else if (obj1[key] !== obj2[key]) {
+        diff[key] = 'updated';
+      } else {
+        diff[key] = 'unchanged';
+      }
+    }
+    const data2Keys = Object.keys(obj2);
+    for (let i = 0; i < data2Keys.length; i += 1) {
+      const key = data2Keys[i];
+      if (!_.has(obj1, key)) {
+        diff[key] = 'added';
+      }
+    }
+  }
+  return diff;
 };
 
 const genDiff = (filepath1, filepath2, outputFormat) => {
@@ -51,30 +131,7 @@ const genDiff = (filepath1, filepath2, outputFormat) => {
   const parsedData1 = parseData(data1, inputFormat);
   const parsedData2 = parseData(data2, inputFormat);
 
-  const diff = {};
-  if (parsedData1 && parsedData2) {
-    const data1Keys = Object.keys(parsedData1);
-    for (let i = 0; i < data1Keys.length; i += 1) {
-      const key = data1Keys[i];
-      if (!_.has(parsedData2, key)) {
-        diff[key] = { deleted: true };
-      } else if (parsedData1[key] !== parsedData2[key]) {
-        diff[key] = { updated: true };
-      } else {
-        diff[key] = { unchanged: true };
-      }
-    }
-    const data2Keys = Object.keys(parsedData2);
-    for (let i = 0; i < data2Keys.length; i += 1) {
-      const key = data2Keys[i];
-      if (!_.has(parsedData1, key)) {
-        diff[key] = { added: true };
-      }
-    }
-  } else {
-    console.error('Bad files provided');
-    return '';
-  }
+  const diff = compareObjects(parsedData1, parsedData2);
 
   const output = generateOutput(diff, parsedData1, parsedData2, outputFormat);
   return output;
