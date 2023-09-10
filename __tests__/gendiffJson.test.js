@@ -2,8 +2,8 @@ import { test, expect } from '@jest/globals';
 import genDiff from '../src/index.js';
 import readFile from '../src/index_test.js';
 
-const res = readFile('expected_gendiffYml');
+const res = readFile('expected_gendiffJson.json');
 
 test('genDiff', () => {
-  expect(genDiff('./__fixtures__/file1.yml', './__fixtures__/file2.yml', 'stylish')).toBe(res);
+  expect(genDiff('./__fixtures__/file1.json', './__fixtures__/file2.json', 'json')).toBe(res);
 });

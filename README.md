@@ -4,4 +4,4 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/36a90144627d99137b7a/maintainability)](https://codeclimate.com/github/atrya-trezer/frontend-project-46/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/36a90144627d99137b7a/test_coverage)](https://codeclimate.com/github/atrya-trezer/frontend-project-46/test_coverage)
 
-[![asciicast](https://asciinema.org/a/FQd3lbtHmHgEPklh1Y1pEFvfC.svg)](https://asciinema.org/a/FQd3lbtHmHgEPklh1Y1pEFvfC)
+[![asciicast](https://asciinema.org/a/8mNQJVqDyCXzr6OJnspT88oUh.svg)](https://asciinema.org/a/8mNQJVqDyCXzr6OJnspT88oUh)

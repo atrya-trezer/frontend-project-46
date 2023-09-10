@@ -1,0 +1,10 @@
+{
+  "foo": "bar",
+  "obj": {
+    "key": 1
+  },
+  "arr_to_update": ["c", "a", "b"],
+  "obj2": {
+    "new_array": [7,8,9]
+  }
+}
