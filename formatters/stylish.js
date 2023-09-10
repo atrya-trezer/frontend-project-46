@@ -25,9 +25,8 @@ const stylishDiffFormat = (diff, obj1, obj2, level, toplevel) => {
   const sortedKeys = _.sortBy(Object.keys(diff));
 
   let result = `${ident.repeat(level)}${toplevel}{`;
-  for (let i = 0; i < sortedKeys.length; i += 1) {
-    const key = sortedKeys[i];
-
+  
+  sortedKeys.forEach(function(key) {
     if (i === 0) {
       result += '\n';
     }
@@ -59,7 +58,7 @@ const stylishDiffFormat = (diff, obj1, obj2, level, toplevel) => {
       result += `${ident.repeat(level)}  - ${key}: ${res1}`;
       result += `${ident.repeat(level)}  + ${key}: ${res2}`;
     }
-  }
+  });
   result += `${ident.repeat(level)}}`;
   if (level > 0) {
     result += '\n';
