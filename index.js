@@ -46,7 +46,7 @@ const compareObjects = (obj1, obj2) => {
   return diff;
 };
 
-const genDiff = (filepath1, filepath2, outputFormat) => {
+const genDiff = (filepath1, filepath2, outputFormat = 'stylish') => {
   const [data1, data2, inputFormat, error] = readFiles(filepath1, filepath2);
   if (error) {
     console.error(error);
