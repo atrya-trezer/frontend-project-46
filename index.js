@@ -22,9 +22,7 @@ const compareObjects = (obj1, obj2) => {
   const diff = {};
   if (obj1 && obj2) {
     const data1Keys = Object.keys(obj1);
-    for (let i = 0; i < data1Keys.length; i += 1) {
-      const key = data1Keys[i];
-
+    data1Keys.forEach((key) => {
       if (!_.has(obj2, key)) {
         diff[key] = 'deleted';
       } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
@@ -34,14 +32,13 @@ const compareObjects = (obj1, obj2) => {
       } else {
         diff[key] = 'unchanged';
       }
-    }
+    });
     const data2Keys = Object.keys(obj2);
-    for (let i = 0; i < data2Keys.length; i += 1) {
-      const key = data2Keys[i];
+    data2Keys.forEach((key) => {
       if (!_.has(obj1, key)) {
         diff[key] = 'added';
       }
-    }
+    });
   }
   return diff;
 };

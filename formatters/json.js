@@ -4,8 +4,7 @@ const enrich = (diff, obj1, obj2) => {
   const enrichedDiff = {};
   const keys = Object.keys(diff);
 
-  for (let i = 0; i < keys.length; i += 1) {
-    const key = keys[i];
+  keys.forEach((key) => {
     if (_.isObject(diff[key])) {
       enrichedDiff[key] = enrich(diff[key], obj1[key], obj2[key]);
     } else if (diff[key] === 'added') {
@@ -20,7 +19,7 @@ const enrich = (diff, obj1, obj2) => {
     } else if (diff[key] === 'unchanged') {
       enrichedDiff[key] = obj1[key];
     }
-  }
+  });
 
   return enrichedDiff;
 };

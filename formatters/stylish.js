@@ -7,15 +7,15 @@ const prettyPrint = (obj, level) => {
   }
   const sortedKeys = _.sortBy(Object.keys(obj));
   let result = '{\n';
-  for (let i = 0; i < sortedKeys.length; i += 1) {
-    const key = sortedKeys[i];
+
+  sortedKeys.forEach((key) => {
     if (typeof obj[key] === 'object') {
       result += `${ident.repeat(level)}    ${key}: `;
       result += prettyPrint(obj[key], level + 1);
     } else {
       result += `${ident.repeat(level)}    ${key}: ${obj[key]}\n`;
     }
-  }
+  });
   result += `${ident.repeat(level)}}\n`;
   return result;
 };

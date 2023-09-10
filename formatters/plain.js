@@ -17,9 +17,7 @@ const plainDiffFormat = (diff, obj1, obj2, path) => {
     p += '.';
   }
 
-  for (let i = 0; i < sortedKeys.length; i += 1) {
-    const key = sortedKeys[i];
-
+  sortedKeys.forEach((key) => {
     const acrualPath = p + key;
     if (_.isObject(diff[key])) {
       path.push(key);
@@ -35,7 +33,8 @@ const plainDiffFormat = (diff, obj1, obj2, path) => {
       const newValue = stringify(obj2[key]);
       result += `Property '${acrualPath}' was updated. From ${oldValue} to ${newValue}\n`;
     }
-  }
+  });
+
   return result;
 };
 
