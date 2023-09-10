@@ -36,7 +36,7 @@ const compareObjects = (obj1, obj2, previousKeys) => {
       return { key, diff: 'updated', previousKeys };
     }
     return { key, diff: 'unchanged', previousKeys };
-  }).sort((a, b) => a.key.localeCompare(b.key));
+  }).slice().sort((a, b) => a.key.localeCompare(b.key));
 
   return diff;
 };
