@@ -1,24 +1,23 @@
 import _ from 'lodash';
 
 const enrich = (diff, obj1, obj2) => {
-  const enrichedDiff = {};
-  const keys = Object.keys(diff);
-
-  keys.forEach((key) => {
-    if (_.isObject(diff[key])) {
-      enrichedDiff[key] = enrich(diff[key], obj1[key], obj2[key]);
-    } else if (diff[key] === 'added') {
-      enrichedDiff.added = enrichedDiff.added || {};
-      enrichedDiff.added[key] = obj2[key];
-    } else if (diff[key] === 'updated') {
-      enrichedDiff.updated = enrichedDiff.updated || {};
-      enrichedDiff.updated[key] = { was: obj1[key], replacedBy: obj2[key] };
-    } else if (diff[key] === 'deleted') {
-      enrichedDiff.removed = enrichedDiff.removed || {};
-      enrichedDiff.removed[key] = obj1[key];
-    } else if (diff[key] === 'unchanged') {
-      enrichedDiff[key] = obj1[key];
+  const enrichedDiff = diff.map((element) => {
+    const { key } = element;
+    const value = element.diff;
+    if (_.isObject(value)) {
+      return { [key]: enrich(value, obj1[key], obj2[key]) };
     }
+    if (value === 'added') {
+      return { added: { [key]: obj2[key] } };
+    }
+    if (value === 'updated') {
+      return { updated: { [key]: { was: obj1[key], replacedBy: obj2[key] } } };
+    }
+    if (value === 'deleted') {
+      return { removed: { [key]: obj1[key] } };
+    }
+    // unchanged
+    return { [key]: obj1[key] };
   });
 
   return enrichedDiff;

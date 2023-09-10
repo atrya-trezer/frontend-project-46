@@ -9,31 +9,28 @@ const stringify = (obj) => {
   return obj;
 };
 
-const plainDiffFormat = (diff, obj1, obj2, path) => {
-  const sortedKeys = _.sortBy(Object.keys(diff));
-  let result = '';
-  let p = path.join('.');
-  if (p.length > 0) {
-    p += '.';
-  }
-
-  sortedKeys.forEach((key) => {
-    const acrualPath = p + key;
-    if (_.isObject(diff[key])) {
-      path.push(key);
-      result += plainDiffFormat(diff[key], obj1[key], obj2[key], path);
-      path.pop();
-    } else if (diff[key] === 'deleted') {
-      result += `Property '${acrualPath}' was removed\n`;
-    } else if (diff[key] === 'added') {
+const plainDiffFormat = (diff, obj1, obj2) => {
+  const result = diff.map((element) => {
+    const { key } = element;
+    const value = element.diff;
+    const path = _.concat(element.previousKeys, key).join('.');
+    if (_.isObject(value)) {
+      return plainDiffFormat(value, obj1[key], obj2[key]);
+    }
+    if (value === 'deleted') {
+      return `Property '${path}' was removed`;
+    }
+    if (value === 'added') {
       const newValue = stringify(obj2[key]);
-      result += `Property '${acrualPath}' was added with value: ${newValue}\n`;
-    } else if (diff[key] === 'updated') {
+      return `Property '${path}' was added with value: ${newValue}`;
+    }
+    if (value === 'updated') {
       const oldValue = stringify(obj1[key]);
       const newValue = stringify(obj2[key]);
-      result += `Property '${acrualPath}' was updated. From ${oldValue} to ${newValue}\n`;
+      return `Property '${path}' was updated. From ${oldValue} to ${newValue}`;
     }
-  });
+    return '';
+  }).filter((x) => x !== '').join('\n');
 
   return result;
 };

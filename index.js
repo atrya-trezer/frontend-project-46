@@ -18,28 +18,26 @@ const readFiles = (filepath1, filepath2) => {
   return [undefined, undefined, undefined, 'could not read files'];
 };
 
-const compareObjects = (obj1, obj2) => {
-  const diff = {};
-  if (obj1 && obj2) {
-    const data1Keys = Object.keys(obj1);
-    data1Keys.forEach((key) => {
-      if (!_.has(obj2, key)) {
-        diff[key] = 'deleted';
-      } else if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
-        diff[key] = compareObjects(obj1[key], obj2[key]);
-      } else if (obj1[key] !== obj2[key]) {
-        diff[key] = 'updated';
-      } else {
-        diff[key] = 'unchanged';
-      }
-    });
-    const data2Keys = Object.keys(obj2);
-    data2Keys.forEach((key) => {
-      if (!_.has(obj1, key)) {
-        diff[key] = 'added';
-      }
-    });
-  }
+const compareObjects = (obj1, obj2, previousKeys) => {
+  const dataKeys = _.union(Object.keys(obj1), Object.keys(obj2));
+
+  const diff = dataKeys.map((key) => {
+    if (!_.has(obj2, key)) {
+      return { key, diff: 'deleted', previousKeys };
+    } if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+      return {
+        key,
+        diff: compareObjects(obj1[key], obj2[key], _.concat(previousKeys, key)),
+        previousKeys,
+      };
+    } if (!_.has(obj1, key)) {
+      return { key, diff: 'added', previousKeys };
+    } if (obj1[key] !== obj2[key]) {
+      return { key, diff: 'updated', previousKeys };
+    }
+    return { key, diff: 'unchanged', previousKeys };
+  }).sort((a, b) => a.key.localeCompare(b.key));
+
   return diff;
 };
 
@@ -53,7 +51,7 @@ const genDiff = (filepath1, filepath2, outputFormat = 'stylish') => {
   const parsedData1 = parseData(data1, inputFormat);
   const parsedData2 = parseData(data2, inputFormat);
 
-  const diff = compareObjects(parsedData1, parsedData2);
+  const diff = compareObjects(parsedData1, parsedData2, []);
 
   const output = diffFormat(diff, parsedData1, parsedData2, outputFormat);
   return output;
