@@ -38,7 +38,7 @@ const compareObjects = (obj1, obj2, previousKeys) => {
     return { key, diff: 'unchanged', previousKeys };
   });
 
-  return [...diff].sort((a, b) => a.key.localeCompare(b.key));
+  return _.sortBy(diff, ['key']);
 };
 
 const genDiff = (filepath1, filepath2, outputFormat = 'stylish') => {
