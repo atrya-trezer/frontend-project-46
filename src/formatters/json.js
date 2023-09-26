@@ -1,5 +1,5 @@
 import _ from 'lodash';
-
+//так как у нас 3 объекта из которых мы рекурсивно собираем 1 stringify использовать не получится
 const enrich = (diff, obj1, obj2) => {
   const enrichedDiff = diff.map((element) => {
     const { key } = element;

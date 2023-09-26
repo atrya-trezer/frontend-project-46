@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals';
-import genDiff from '../index.js';
+import genDiff from '../src/index.js';
 import readFile from '../src/index_test.js';
 
 const res = readFile('expected_gendiffDeep');
