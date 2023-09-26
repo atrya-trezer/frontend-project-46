@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/atrya-trezer/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/atrya-trezer/frontend-project-46/actions)",
+  "description": "Программа сравнивает два конфигурационных файла разных типов с настраиваемым форматом вывода.",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
@@ -40,7 +40,6 @@
     "eslint-plugin-jest": "^27.2.2",
     "jest": "^29.6.0",
     "jest-cli": "^29.6.0",
-    "npm-check-updates": "^16.10.11",
-    "simple-git-hooks": "^2.8.1"
+    "npm-check-updates": "^16.10.11"
   }
 }
