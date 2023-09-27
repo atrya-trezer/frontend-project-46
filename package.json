@@ -2,6 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Программа сравнивает два конфигурационных файла разных типов с настраиваемым форматом вывода.",
+  "main": "src/index.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
