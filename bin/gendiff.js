@@ -17,4 +17,4 @@ program
   .argument('<filepath1>')
   .argument('<filepath2>')
   .action(main)
-  .parse(process.argv);
+  .parse();
