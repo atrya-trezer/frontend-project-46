@@ -6,7 +6,7 @@ const parseData = (data, format) => {
   } if (format === 'yml') {
     return yaml.load(data);
   }
-  
+
   return undefined;
 };
 
