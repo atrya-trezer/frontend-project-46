@@ -5,6 +5,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/36a90144627d99137b7a/test_coverage)](https://codeclimate.com/github/atrya-trezer/frontend-project-46/test_coverage)
 
 ## Difference Calculator
+This program calculates diff of json or yml files and present output in different formats (json, plain, stylish)
 
 [![asciicast](https://asciinema.org/a/8mNQJVqDyCXzr6OJnspT88oUh.svg)](https://asciinema.org/a/8mNQJVqDyCXzr6OJnspT88oUh)
 
