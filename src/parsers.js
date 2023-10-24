@@ -6,8 +6,8 @@ const parseData = (data, format) => {
   } if (format === 'yml') {
     return yaml.load(data);
   }
-  console.error(`unsupported format: ${format}`);
-  return '';
+  
+  return undefined;
 };
 
 export default parseData;

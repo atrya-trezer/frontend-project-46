@@ -4,27 +4,36 @@ import parseData from './parsers.js';
 import diffFormat from './formatters/index.js';
 import buildDiff from './builddiff.js';
 
-const readFiles = (filepath1, filepath2) => {
-  const data1 = readFileSync(filepath1, 'utf8');
-  const data2 = readFileSync(filepath2, 'utf8');
-  if (data1 && data2) {
+const validateFileNames = (filepath1, filepath2) => {
     const extention1 = extname(filepath1).slice(1);
     const extention2 = extname(filepath2).slice(1);
     if (extention1 === extention2) {
-      return [data1, data2, extention1];
+      return extention1;
     }
-    return [undefined, undefined, undefined, 'unsupported file format'];
-  }
-  return [undefined, undefined, undefined, 'could not read files'];
+    return undefined;
 };
 
 const genDiff = (filepath1, filepath2, outputFormat = 'stylish') => {
-  const [data1, data2, inputFormat, error] = readFiles(filepath1, filepath2);
-  if (error) {
-    return `Error: ${error}`;
+
+  const inputFormat = validateFileNames(filepath1, filepath2);
+
+  if (!inputFormat) {
+    return 'Error:  unsupported file format';
   }
+
+  const data1 = readFileSync(filepath1, 'utf8');
+  const data2 = readFileSync(filepath2, 'utf8');
+  
+  if (!data1 || !data2) {
+    return 'Error: could not read files';
+  }
+
   const parsedData1 = parseData(data1, inputFormat);
   const parsedData2 = parseData(data2, inputFormat);
+
+  if (!parsedData1 || !parsedData2) {
+    return `Error: unsupported format ${inputFormat}`;
+  }
 
   const diff = buildDiff(parsedData1, parsedData2, []);
 
