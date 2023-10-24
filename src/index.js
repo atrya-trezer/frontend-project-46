@@ -21,10 +21,8 @@ const readFiles = (filepath1, filepath2) => {
 const genDiff = (filepath1, filepath2, outputFormat = 'stylish') => {
   const [data1, data2, inputFormat, error] = readFiles(filepath1, filepath2);
   if (error) {
-    console.error(error);
-    return '';
+    return `Error: ${error}`;
   }
-
   const parsedData1 = parseData(data1, inputFormat);
   const parsedData2 = parseData(data2, inputFormat);
 
