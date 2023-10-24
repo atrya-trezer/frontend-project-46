@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { extname } from 'path';
 import parseData from './parsers.js';
 import diffFormat from './formatters/index.js';
-import buildDiff from './buildDiff.js';
+import buildDiff from './builddiff.js';
 
 const readFiles = (filepath1, filepath2) => {
   const data1 = readFileSync(filepath1, 'utf8');
