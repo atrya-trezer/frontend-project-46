@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { extname } from 'path';
 import parseData from './parsers.js';
 import diffFormat from './formatters/index.js';
-import compareObjects from './compare.js';
+import buildDiff from './buildDiff.js';
 
 const readFiles = (filepath1, filepath2) => {
   const data1 = readFileSync(filepath1, 'utf8');
@@ -28,7 +28,7 @@ const genDiff = (filepath1, filepath2, outputFormat = 'stylish') => {
   const parsedData1 = parseData(data1, inputFormat);
   const parsedData2 = parseData(data2, inputFormat);
 
-  const diff = compareObjects(parsedData1, parsedData2, []);
+  const diff = buildDiff(parsedData1, parsedData2, []);
 
   const output = diffFormat(diff, parsedData1, parsedData2, outputFormat);
   return output;
