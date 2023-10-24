@@ -4,6 +4,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/36a90144627d99137b7a/maintainability)](https://codeclimate.com/github/atrya-trezer/frontend-project-46/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/36a90144627d99137b7a/test_coverage)](https://codeclimate.com/github/atrya-trezer/frontend-project-46/test_coverage)
 
+## Difference Calculator
+
 [![asciicast](https://asciinema.org/a/8mNQJVqDyCXzr6OJnspT88oUh.svg)](https://asciinema.org/a/8mNQJVqDyCXzr6OJnspT88oUh)
 
 ## Setup
@@ -18,6 +20,8 @@ make install
 make test
 ```
 
+## Usage
+
 ```bash
 gendiff -h
 
@@ -30,6 +34,8 @@ gendiff -h
     -h, --help           output usage information
     -f, --format <type>  output format
   ```
+
+## Example
 
   ```bash
   ./bin/gendiff.js --format json __fixtures__/file1.yml __fixtures__/file2.yml
